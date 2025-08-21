@@ -1,0 +1,32 @@
+# docker-compose.yml
+services:
+  backend:
+    build: ./backend
+    container_name: apk_analyzer_backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - mongo
+  frontend:
+    build: ./frontend
+    container_name: apk_analyzer_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+  mongo:
+    image: mongo:latest
+    container_name: apk_analyzer_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
